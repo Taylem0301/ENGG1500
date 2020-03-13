@@ -1,12 +1,9 @@
-
 #define ECHO 12
 #define TRIG 7
 
-
 void setup() {
   // put your setup code here, to run once:
-  //setting outputs
-  pinMode(5,OUTPUT);  //ENA (Left Motor)
+  pinMode(5,OUTPUT);  //ENA (Left Motor) (0-255 Speed Range)
   pinMode(6,OUTPUT);  //ENB (Right Motor)
   pinMode(8,OUTPUT);  //IN1 (Left Wheel Back)
   pinMode(9,OUTPUT);  //IN2 (Left Wheel Forward)
@@ -22,32 +19,12 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  unsigned int distance_mm = 0;
-  distance_mm = sonar_mm();
-  if(distance_mm > 120){
-    leftForwards();
-    rightForwards();
-    analogWrite(5,80);
-    analogWrite(6,80);
-  }
-  else if(distance_mm < 60){
-    leftBackwards();
-    rightBackwards();
-    analogWrite(5,80);
-    analogWrite(6,80);
-  }
-  else{
-      analogWrite(5,0);
-      analogWrite(6,0);
-  }
-  //[]int sensorVal = digitalRead(A0);  //1 if no obstacle, 0 if none
+  rightForwards();
+  leftForwards();
 
-  //causes wheels to move forward (Speed is a range between 0-255)
-  //[]analogWrite(5,sensorVal*100); //set left wheel to half speed if no obstacle detected
-  //[]analogWrite(6,sensorVal*100); //set right wheel to half speedif no obstacle detected
+  wallFind();
   
-  
+
 }
 
 void leftForwards(void){
@@ -87,4 +64,36 @@ unsigned int sonar_mm(void){
 
   return (unsigned int)(0.5 * duration * 1e-6 * speed_sound * 1e3); //(.5, half distance)
   //(1e-6, seconds to microseconds)(1e3, metres to millimetres)
+}
+
+void wallFind(void){
+  while(sonar_mm < 300){  //While more than 300mm away from wall move forward
+    analogWrite(5,100);
+    analogWrite(6,100);
+}
+  analogWrite(5,0);        //Stop once closer than 300mm to the wall
+  analogWrite(6,0);
+}
+
+void followWall(void){
+  // turn closer when > 500mm
+  // turn further away < 250mm
+
+  //find the point at which the speaker gets the shortest distnace
+  //turn the speaker and the robot 90o
+  // speaker should be poimting at the corner robot at random angle going counter/clockwise around
+  //speaker should stay pointed at corner
+  
+
+
+
+  
+}
+
+void boxDetection(void){
+  // when black surface detected stop 
+  //if no black surface detected keep going
+
+
+  
 }
