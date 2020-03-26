@@ -14,28 +14,28 @@ void setup() {
   Serial.begin(9600);
   Serial.println("PWM,ENC_L,ENC_R");
 
-  
+
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:  
+  // put your main code here, to run repeatedly:
   int x = 0;
   leftForwards();
   rightForwards();
-  
-  for (x = 0; x<256; x++){
+
+  for (x = 0; x < 256; x++) {
     enc_clear();
-    analogWrite(5,x);
-    analogWrite(6,x);
+    analogWrite(5, x);
+    analogWrite(6, x);
     delay(1000);
     Serial.print(x);
     Serial.print(",");
     Serial.print(enc_getLeft());
-    Serial.print(",");
+    Serial.print(","); //1234567890
     Serial.println(enc_getRight());
-    
+
   }
-} 
+}
 
 void leftForwards(void) {
   //sets left wheel to move forward
